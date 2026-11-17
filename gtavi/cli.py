@@ -9,9 +9,9 @@ import threading
 import time
 from pathlib import Path
 
-from .clipper import FORMATS, download_section
+from .clipper import FORMATS, download_section, shorts_kit
 from .session import ClipSession
-from .sources import NotLiveError, parse_source
+from .sources import NotLiveError, parse_source, video_title
 
 
 def parse_time(text: str) -> float:
@@ -89,7 +89,10 @@ def cmd_vod(a: argparse.Namespace) -> None:
     out = Path(a.out or f"gtavi_data/clips/vod_{int(time.time())}_{a.format}.mp4")
     print(f"✂ downloading {a.start:.0f}s → {a.end:.0f}s …")
     download_section(a.url, a.start, a.end, out, a.format, caption=a.caption)
-    print(f"saved {out}")
+    src = parse_source(a.url)
+    credit = f"{src.share_url}?t={int(a.start)}" if src.video_id else src.url
+    kit = shorts_kit(out, video_title(a.url), credit, tags=a.tags, live=False)
+    print(f"saved {out}\nshorts text: {kit}")
 
 
 def cmd_ui(a: argparse.Namespace) -> None:
@@ -127,6 +130,7 @@ def main(argv=None) -> None:
     vod.add_argument("--end", type=parse_time, required=True)
     vod.add_argument("--format", choices=list(FORMATS), default="vertical-blur")
     vod.add_argument("--caption", default="")
+    vod.add_argument("--tags", nargs="*", default=[])
     vod.add_argument("--out")
     vod.set_defaults(func=cmd_vod)
 

@@ -107,6 +107,19 @@ def parse_source(text: str) -> Source:
     return Source("other", text, None)
 
 
+def video_title(url: str, timeout: float = 60) -> str:
+    """Best-effort title lookup for the upload kit; empty string if it fails."""
+    try:
+        proc = subprocess.run(
+            [sys.executable, "-m", "yt_dlp", "--quiet", "--no-warnings", "--no-playlist", "--skip-download",
+             "--print", "%(title)s", url],
+            capture_output=True, text=True, timeout=timeout, env=tool_env(),
+        )
+        return proc.stdout.strip().splitlines()[-1] if proc.returncode == 0 and proc.stdout.strip() else ""
+    except (OSError, subprocess.TimeoutExpired):
+        return ""
+
+
 class NotLiveError(RuntimeError):
     pass
 

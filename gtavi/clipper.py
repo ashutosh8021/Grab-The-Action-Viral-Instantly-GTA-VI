@@ -235,7 +235,7 @@ def download_section(url: str, start: float, end: float, dest: Path, fmt: str = 
 
 
 def shorts_kit(clip: Path, source_title: str, credit_url: str, reason: str = "",
-               tags: Sequence[str] = ()) -> Path:
+               tags: Sequence[str] = (), live: bool = True) -> Path:
     """Write <clip>.txt with a ready-to-paste YouTube Shorts title, description and hashtags."""
     title_base = re.sub(r"\s*\d{4}-\d{2}-\d{2} \d{2}:\d{2}$", "", source_title or "")  # yt-dlp live suffix
     title_base = (title_base or "Live moment").split("|")[0].split(" - ")[0].strip()
@@ -245,7 +245,8 @@ def shorts_kit(clip: Path, source_title: str, credit_url: str, reason: str = "",
         f"TITLE:\n{title}",
         "",
         "DESCRIPTION:",
-        f"{reason.capitalize() + ' - ' if reason and reason != 'manual' else ''}clipped live from:",
+        f"{reason.capitalize() + ' - ' if reason and reason != 'manual' else ''}"
+        f"{'clipped live from' if live else 'Clipped from'}:",
         credit_url,
         "",
         hashtags,

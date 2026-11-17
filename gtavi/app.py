@@ -14,7 +14,7 @@ import streamlit as st
 from gtavi.clipper import FORMATS, SHORTS_MAX_SECONDS, download_section, shorts_kit
 from gtavi.cli import parse_time
 from gtavi.session import ClipSession
-from gtavi.sources import NotLiveError, parse_source
+from gtavi.sources import NotLiveError, parse_source, video_title
 
 DATA = Path("gtavi_data")
 
@@ -234,8 +234,8 @@ with vod_tab:
             with st.spinner("Downloading just that section…"):
                 download_section(url, t0, t1, dest, vfmt, caption=vcap)
             src = parse_source(url)
-            kit = shorts_kit(dest, "", f"{src.share_url}{'?t=' + str(int(t0)) if src.video_id else ''}",
-                             tags=tags.split())
+            kit = shorts_kit(dest, video_title(url), f"{src.share_url}{'?t=' + str(int(t0)) if src.video_id else ''}",
+                             tags=tags.split(), live=False)
             st.success(f"Saved `{dest}`")
             a, b = st.columns(2)
             a.video(str(dest))
@@ -250,7 +250,7 @@ with gallery_tab:
     if not files:
         st.info("No clips yet.")
     else:
-        st.caption(f"{len(files)} clips in `{(DATA / 'clips').resolve()}` · upload at studio.youtube.com")
+        st.caption(f"{len(files)} clips in `{DATA / 'clips'}` · upload at studio.youtube.com")
         grid = st.columns(4)
         for i, f in enumerate(files[:12]):
             with grid[i % 4]:

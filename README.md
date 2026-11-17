@@ -10,7 +10,37 @@ Or let it watch chat for you: when live chat explodes with 😂💀🤯 / `NO WA
 
 `Free` · `Open source` · `No API keys` · `No login` · `Runs on your machine`
 
+<br>
+
+<img src="docs/demo-short.gif" width="260" alt="A vertical Short made by GTAVI: WAIT FOR IT caption, then a flying squirrel jumps off a branch">
+
+<sub>☝️ Made with one command: <code>gtavi vod https://youtu.be/aqz-KE-bpKQ --start 6:38 --end 7:10 --caption "wait for it"</code></sub>
+
 </div>
+
+---
+
+## Demo
+
+### From stream to Short in one click
+
+<img src="docs/before-after.png" alt="A 16:9 stream frame next to the 9:16 Short GTAVI made from it, with a WAIT FOR IT caption and blurred fill">
+
+### The web app
+
+Paste a YouTube `@handle`, hit **Start buffering**, and GTAVI finds the live stream, embeds the player and chat, and starts keeping a replay buffer. Here it's recording NASA's live ISS feed:
+
+<img src="docs/ui-live.png" alt="GTAVI web app recording NASA's live ISS stream, with clip buttons and buffer status">
+
+Hit **✂ 15s** and the Short is ready a few seconds later, along with its title, description and hashtags to paste into YouTube Studio:
+
+<img src="docs/ui-short.png" alt="A finished vertical Short in the GTAVI app, next to its ready-to-paste title, description and hashtags">
+
+Every clip collects in **My Shorts**, ready to download:
+
+<img src="docs/ui-gallery.png" alt="The My Shorts gallery in GTAVI">
+
+<sub>Demo footage: <a href="https://peach.blender.org/">Big Buck Bunny</a> © Blender Foundation, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>; ISS live views courtesy of NASA.</sub>
 
 ---
 
