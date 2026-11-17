@@ -1,0 +1,28 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.10", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install ".[dev]"
+      - run: pytest -q
+      - run: gtavi --help
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t gtavi .
+      - name: app serves
+        run: |
+          docker run -d -p 8501:8501 --name gtavi gtavi
+          for i in $(seq 1 30); do curl -sf http://localhost:8501/_stcore/health && exit 0; sleep 2; done
+          docker logs gtavi; exit 1

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gtavi"
+version = "0.1.0"
+description = "Grab The Action, Viral Instantly: turn YouTube live moments into ready-to-post Shorts"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+keywords = ["youtube", "youtube-shorts", "youtube-live", "clips", "live-stream", "highlights", "shorts", "streamlit", "twitch"]
+dependencies = [
+    "streamlit>=1.37",
+    "streamlink>=6.0",
+    "yt-dlp[default]>=2026.1.1",
+    "deno>=2.0",  # JS runtime yt-dlp needs for YouTube
+    "imageio-ffmpeg>=0.5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+gtavi = "gtavi.cli:main"
+
+[tool.setuptools]
+packages = ["gtavi"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
